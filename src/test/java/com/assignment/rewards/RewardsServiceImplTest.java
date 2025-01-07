@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.assignment.rewards.serviceImpl.RewardsServiceImpl;
+import com.assignment.rewards.service.RewardsServiceImpl;
 import com.assignment.rewards.vo.CustomerRewardsRequest;
 import com.assignment.rewards.vo.CustomerRewardsResponse;
 import com.assignment.rewards.vo.CustomerTransaction;

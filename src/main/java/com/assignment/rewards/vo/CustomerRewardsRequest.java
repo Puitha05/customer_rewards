@@ -2,53 +2,25 @@ package com.assignment.rewards.vo;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Represents a request for calculating customer rewards.
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerRewardsRequest {
 
-	/**
-	 * customerTransactions
-	 */
-	List<CustomerTransaction> customerTransactions;
-	/**
-	 * months
-	 */
-	Integer months;
+    /**
+     * List of customer transactions.
+     */
+    private List<CustomerTransaction> customerTransactions;
 
-	public CustomerRewardsRequest(List<CustomerTransaction> customerTransactions, Integer months) {
-		super();
-		this.customerTransactions = customerTransactions;
-		this.months = months;
-	}
-
-	public CustomerRewardsRequest() {
-
-	}
-
-	/**
-	 * @return the customerTransactions
-	 */
-	public List<CustomerTransaction> getCustomerTransactions() {
-		return customerTransactions;
-	}
-
-	/**
-	 * @param customerTransactions the customerTransactions to set
-	 */
-	public void setCustomerTransactions(List<CustomerTransaction> customerTransactions) {
-		this.customerTransactions = customerTransactions;
-	}
-
-	/**
-	 * @return the months
-	 */
-	public Integer getMonths() {
-		return months;
-	}
-
-	/**
-	 * @param months the months to set
-	 */
-	public void setMonths(Integer months) {
-		this.months = months;
-	}
-
+    /**
+     * Number of months to consider for rewards calculation.
+     */
+    private Integer months;
 }

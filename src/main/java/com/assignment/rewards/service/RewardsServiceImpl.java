@@ -1,4 +1,4 @@
-package com.assignment.rewards.serviceImpl;
+package com.assignment.rewards.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.assignment.rewards.service.RewardsService;
 import com.assignment.rewards.vo.CustomerRewardsRequest;
 import com.assignment.rewards.vo.CustomerRewardsResponse;
 import com.assignment.rewards.vo.CustomerTransaction;
