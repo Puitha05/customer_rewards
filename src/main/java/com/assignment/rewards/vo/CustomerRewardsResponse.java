@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Represents a response for customer rewards including transaction details, 
+ * Represents a response for customer rewards including transaction details,
  * monthly points breakdown, and total reward points.
  */
 @Data
@@ -16,23 +16,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerRewardsResponse {
 
-    /**
-     * Unique customer ID.
-     */
-    private Integer customerId;
+	/**
+	 * Unique customer ID.
+	 */
+	private Integer customerId;
 
-    /**
-     * List of customer transactions.
-     */
-    private List<CustomerTransactionRS> customerTransactions;
+	/**
+	 * List of customer transactions.
+	 */
+	private List<CustomerTransactionRS> customerTransactions;
 
-    /**
-     * Mapping of month to reward points.
-     */
-    private Map<String, Integer> monthlyPoints;
+	/**
+	 * Mapping of month to reward points.
+	 */
+	private Map<String, Integer> monthlyPoints;
 
-    /**
-     * Total reward points accumulated by the customer.
-     */
-    private int totalPoints;
+	/**
+	 * Total reward points accumulated by the customer.
+	 */
+	private int totalPoints;
 }

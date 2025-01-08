@@ -16,14 +16,5 @@ public class MonthlyTransactionRS {
     private Integer customerId;
     
     List<CustomerTransactionRS> customerTransactions;
-//    /**
-//     * Month in which the transaction was done.
-//     */
-//    private String month;
-//
-//    /**
-//     * Transaction amount.
-//     */
-//    private double amount;
 
 }
