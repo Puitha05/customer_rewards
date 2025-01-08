@@ -1,5 +1,7 @@
 package com.assignment.rewards.entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,11 +12,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "customer_info")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerInfoAndRewardsEntity {
 
     @Id
@@ -32,48 +38,6 @@ public class CustomerInfoAndRewardsEntity {
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", referencedColumnName = "customerId")
-    private List<CustomerTransactionsEntity> customerRewardsEntity;
+    private List<CustomerTransactionsEntity> customerTransactionsEntity;
 
-    // Constructors
-    public CustomerInfoAndRewardsEntity() {
-    }
-
-    public CustomerInfoAndRewardsEntity(String customerName, List<CustomerTransactionsEntity> customerTransactions) {
-        this.customerName = customerName;
-        this.customerRewardsEntity = customerTransactions;
-    }
-
-    // Getters and Setters
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public List<CustomerTransactionsEntity> getCustomerRewardsEntity() {
-        return customerRewardsEntity;
-    }
-
-    public void setCustomerRewardsEntity(List<CustomerTransactionsEntity> customerRewardsEntity) {
-        this.customerRewardsEntity = customerRewardsEntity;
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerRewardsEntity{" +
-                "customerId=" + customerId +
-                ", customerName='" + customerName + '\'' +
-                ", customerTransactions=" + customerRewardsEntity +
-                '}';
-    }
 }

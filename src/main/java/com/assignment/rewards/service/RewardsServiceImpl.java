@@ -17,6 +17,7 @@ import com.assignment.rewards.vo.CustomerRewardsRequest;
 import com.assignment.rewards.vo.CustomerRewardsResponse;
 import com.assignment.rewards.vo.CustomerTransactionRQ;
 import com.assignment.rewards.vo.CustomerTransactionRS;
+import com.assignment.rewards.vo.MonthlyTransactionRS;
 
 @Service
 public class RewardsServiceImpl implements RewardsService {
@@ -24,7 +25,7 @@ public class RewardsServiceImpl implements RewardsService {
 	/** The flight info repository. */
 	@Autowired
 	private CustomerRewardsRepository customerRewardsRepository;
-	
+
 	@Override
 	/**
 	 * @param customerRewardsRequest
@@ -46,7 +47,8 @@ public class RewardsServiceImpl implements RewardsService {
 		 * amounts.
 		 */
 		Map<Integer, List<CustomerTransactionRQ>> groupedTransactions = customerRewardsRequest.getCustomerTransactions()
-				.stream().filter(t -> t.getMonth().compareTo(month) >= 0) // Filter for the months based on the calculated start month.
+				.stream().filter(t -> t.getMonth().compareTo(month) >= 0) // Filter for the months based on the
+																			// calculated start month.
 				.collect(Collectors.groupingBy(CustomerTransactionRQ::getCustomerId));
 
 		/**
@@ -55,13 +57,10 @@ public class RewardsServiceImpl implements RewardsService {
 		return groupedTransactions.entrySet().stream().map(entry -> {
 			Integer customer = entry.getKey();
 			List<CustomerTransactionRQ> transactions = entry.getValue();
-			
-			List<CustomerTransactionRS> transactionsRSList = transactions.stream()
-				    .map(transactionsRQ -> new CustomerTransactionRS(
-				        transactionsRQ.getMonth(),
-				        transactionsRQ.getAmount()
-				    ))
-				    .collect(Collectors.toList());
+
+			List<CustomerTransactionRS> transactionsRSList = transactions.stream().map(
+					transactionsRQ -> new CustomerTransactionRS(transactionsRQ.getMonth(), transactionsRQ.getAmount()))
+					.collect(Collectors.toList());
 
 			/**
 			 * Calculate the total transaction amount per month.
@@ -87,8 +86,6 @@ public class RewardsServiceImpl implements RewardsService {
 			return new CustomerRewardsResponse(customer, transactionsRSList, monthlyPoints, totalPoints);
 		}).collect(Collectors.toList()); // Collect all CustomerRewardsResponse objects into a list.
 	}
-	
-	
 
 	/**
 	 * 
@@ -112,98 +109,84 @@ public class RewardsServiceImpl implements RewardsService {
 		}
 		return points;
 	}
-	
-//	@Override
-//	public CustomerRewardsResponse getCustomerRewards(Integer customerId) {
-//	    // Assume `transactions` contains all customer transactions, fetched from a data source.
-//		CustomerInfoAndRewardsEntity transactions = fetchCustomerTransactions(customerId);
-//
-//	    if (transactions.isEmpty()) {
-//	        return null; // No transactions found for this customer.
-//	    }
-//
-//	    Map<String, Double> monthlyData = transactions.stream()
-//	            .collect(Collectors.groupingBy(CustomerTransaction::getMonth, Collectors.summingDouble(CustomerTransaction::getAmount)));
-//
-//	    Map<String, Integer> monthlyPoints = monthlyData.entrySet().stream()
-//	            .collect(Collectors.toMap(Map.Entry::getKey, e -> calculatePoints(e.getValue())));
-//
-//	    int totalPoints = monthlyPoints.values().stream().mapToInt(Integer::intValue).sum();
-//
-//	    return new CustomerRewardsResponse(customerId, transactions, monthlyPoints, totalPoints);
-//	}
-//	
-////	@Override
-//    public CustomerInfoAndRewardsEntity fetchCustomerTransactions(Integer customerId) {
-//        // Use the repository to fetch transactions by customer ID.
-////        return customerTransactionRepository.findByCustomerId(customerId);
-//    	try {
-////			List<FlightInfoEntity> flightInfoEntity = flightInfoRepository.findByDepartureTimeBetween(fromDate, toDate);
-////			return flightInfoEntity;
-//			return customerRewardsRepository.findById(customerId);
-//		} catch (Exception e) {
-//			throw new RuntimeException("Failed to retrieve flight information from database: " + e.getMessage());
-//		}
-//	}
-	
-	
-	
-//	@Override
-//	public CustomerInfoAndRewardsRS getCustomerInfoAndRewards(Long customerId) {
-//	    // Fetch customer and associated transactions
-//	    CustomerInfoAndRewardsEntity customerInfo = customerRewardsRepository.findById(customerId)
-//	            .orElse(null);
-//
-//	    if (customerInfo == null) {
-//	        return null; // Customer not found
-//	    }
-//
-//	    List<CustomerTransactionsEntity> transactions = customerInfo.getCustomerRewardsEntity();
-//
-//	    // Calculate total rewards
-//	    int totalPoints = transactions.stream()
-//	            .mapToInt(transaction -> calculatePoints(transaction.getAmount()))
-//	            .sum();
-//
-//	    // Create and return response
-//	    return new CustomerInfoAndRewardsRS(
-//	            customerInfo.getCustomerId().intValue(), // Convert Long to int
-//	            customerInfo.getCustomerName(),
-//	            totalPoints
-//	    );
-//	}
-	
+
+	/**
+	 * Fethes specific customer info and caluculate the rewards earned by the customers and returns the customer information and rewards earned.
+	 * 
+	 * @param customerId
+	 * @return
+	 */
 	@Override
 	public CustomerInfoAndRewardsRS getCustomerInfoAndRewards(Long customerId) {
-	    // Fetch customer and associated transactions
-	    CustomerInfoAndRewardsEntity customerInfo = customerRewardsRepository.findById(customerId)
-	            .orElse(null);
+		// Fetch customer and associated transactions
+		CustomerInfoAndRewardsEntity customerInfo = customerRewardsRepository.findById(customerId).orElse(null);
 
-	    if (customerInfo == null) {
-	        return null; // Customer not found
-	    }
+		if (customerInfo == null) {
+			return null; // Customer not found
+		}
 
-	    List<CustomerTransactionsEntity> transactions = customerInfo.getCustomerRewardsEntity();
+		List<CustomerTransactionsEntity> transactions = customerInfo.getCustomerTransactionsEntity();
 
-	    // Map the transactions to CustomerTransactionRS
-	    List<CustomerTransactionRS> customerTransactions = transactions.stream()
-	            .map(transaction -> new CustomerTransactionRS(transaction.getMonth(), transaction.getAmount()))
-	            .collect(Collectors.toList());
+		// Map the transactions to CustomerTransactionRS
+		List<CustomerTransactionRS> customerTransactions = transactions.stream()
+				.map(transaction -> new CustomerTransactionRS(transaction.getMonth(), transaction.getAmount()))
+				.collect(Collectors.toList());
 
-	    // Calculate total rewards
-	    int totalPoints = transactions.stream()
-	            .mapToInt(transaction -> calculatePoints(transaction.getAmount()))
-	            .sum();
+		// Calculate total rewards
+		int totalPoints = transactions.stream().mapToInt(transaction -> calculatePoints(transaction.getAmount())).sum();
 
-	    // Create and return response with customer transactions and total points
-	    return new CustomerInfoAndRewardsRS(
-	            customerInfo.getCustomerId().intValue(), // Convert Long to int
-	            customerInfo.getCustomerName(),
-	            customerTransactions, // Set customer transactions
-	            totalPoints
-	    );
+		// Create and return response with customer transactions and total points
+		return new CustomerInfoAndRewardsRS(customerInfo.getCustomerId().intValue(), customerInfo.getCustomerName(),
+				customerTransactions, totalPoints);
 	}
 
+	/**
+	 * 
+	 * This method will return customer transaction data for a specific months
+	 * period.
+	 * 
+	 * @param monthId - indicates how many months data needs to be fetched.
+	 * @return
+	 */
+	@Override
+	public List<MonthlyTransactionRS> getTransactionsByMonth(int monthId) {
+		LocalDate currentDate = LocalDate.now();
+		LocalDate startDate;
 
+		// Determine the date range based on the monthId
+		if (monthId == 1) {
+			// For monthId 1, fetch rewards for the current month
+			startDate = currentDate;
+		} else if (monthId == 2) {
+			// For monthId 2, fetch rewards for the current and previous month
+			startDate = currentDate.minusMonths(1);
+		} else {
+			throw new IllegalArgumentException("Invalid month identifier.");
+		}
+
+		// Format the start date to match the transaction month format (e.g., "yyyy-MM")
+		String month = startDate.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+		String previousMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM"));
+
+		// Fetch all customer data
+		List<CustomerInfoAndRewardsEntity> customers = customerRewardsRepository.findAll();
+
+		// Filter transactions by the calculated month(s)
+		return customers.stream().map(customer -> {
+			// Filter transactions for the specific month
+			List<CustomerTransactionsEntity> filteredTransactions = customer.getCustomerTransactionsEntity().stream()
+					.filter(transaction -> transaction.getMonth().equals(month)
+							|| transaction.getMonth().equals(previousMonth))
+					.collect(Collectors.toList());
+
+			// Map to CustomerTransactionRS for each transaction
+			List<CustomerTransactionRS> transactionRSList = filteredTransactions.stream()
+					.map(transaction -> new CustomerTransactionRS(transaction.getMonth(), transaction.getAmount()))
+					.collect(Collectors.toList());
+
+			// Return a MonthlyTransactionRS with the list of CustomerTransactionRS
+			return new MonthlyTransactionRS(customer.getCustomerId().intValue(), transactionRSList);
+		}).collect(Collectors.toList());
+	}
 
 }
