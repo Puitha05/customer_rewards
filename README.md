@@ -1,25 +1,34 @@
 # Rewards Program API
 
 ## Problem Description
-A retailer offers a rewards program to its customers, awarding points based on each recorded purchase. The points are calculated as follows:
+1. A retailer offers a rewards program to its customers, awarding points based on each recorded purchase. The points are calculated as follows:
 - **2 points** for every dollar spent over $100 in each transaction.
 - **1 point** for every dollar spent between $50 and $100 in each transaction.
 
 For example:
 - A purchase of $120 earns `2x$20 + 1x$50 = 90 points`.
 
+2. Create GET endpoint for fetching customer information along with rewards.
+
+3. Create an endpoint passing month information as path variable and fetching respective month wise data
 ---
 
 ## API Endpoint
 1. **getWebRewardPoints**: Returns ResponseEntity containing the calculated rewards or an error message in case of failure.  
 **URL**: `/api/rewards/getWebRewardPoints`
+2. **getCustomerInfoAndRewards**: Returns ResponseEntity containing the calculated rewards, customer data for the specific customer ID.  
+**URL**: `/api/rewards/getCustomerInfoAndRewards/{customerId}`
+3. **getTransactionsByMonth**: Returns ResponseEntity containing the customer transaction data for a specific months period. 
+**URL**: `/api/rewards/getRewardsByMonth/{monthId}`
 ---
 ## **Screenshot**
 
 ![Postman getWebRewardPoints Request Example](screenshots/postman-request.png)
 ![Postman getWebRewardPoints Response Example](screenshots/postman-request.png)
+![Postman getCustomerInfoAndRewards Response Example](screenshots/postman-getCustomerInfoAndRewards-RS.png)
+![Postman getWebRewardPoints Response Example](screenshots/postman-getTransactionsByMonth-RS.png)
 
-## Sample Input
+## Sample Input for getWebRewardPoints
 ```json
 {
   "customerTransactions": [
