@@ -24,7 +24,7 @@ public class CustomerRewardsResponse {
     /**
      * List of customer transactions.
      */
-    private List<CustomerTransaction> customerTransactions;
+    private List<CustomerTransactionRS> customerTransactions;
 
     /**
      * Mapping of month to reward points.

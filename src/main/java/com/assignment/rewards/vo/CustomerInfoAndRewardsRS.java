@@ -1,19 +1,17 @@
 package com.assignment.rewards.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Represents a customer transaction with details such as customer ID, name, 
- * transaction month, and amount.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerTransaction {
-
-    /**
+public class CustomerInfoAndRewardsRS {
+	
+	/**
      * Unique customer ID.
      */
     private int customerId;
@@ -22,14 +20,13 @@ public class CustomerTransaction {
      * Customer name.
      */
     private String customerName;
-
     /**
-     * Month in which the transaction was done.
+     * List of customer transactions.
      */
-    private String month;
-
+    private List<CustomerTransactionRS> customerTransactions;
     /**
-     * Transaction amount.
+     * Total reward points accumulated by the customer.
      */
-    private double amount;
+    private int totalRewardPoints;
+
 }

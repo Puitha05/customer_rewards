@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +22,8 @@ import com.assignment.rewards.controller.RewardsController;
 import com.assignment.rewards.service.RewardsService;
 import com.assignment.rewards.vo.CustomerRewardsRequest;
 import com.assignment.rewards.vo.CustomerRewardsResponse;
-import com.assignment.rewards.vo.CustomerTransaction;
+import com.assignment.rewards.vo.CustomerTransactionRQ;
+import com.assignment.rewards.vo.CustomerTransactionRS;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 class RewardsControllerTest {
@@ -53,15 +55,22 @@ class RewardsControllerTest {
 	@Test
 	void testGetRewards() throws Exception {
 		// Prepare test data
-		List<CustomerTransaction> transactions = Arrays.asList(new CustomerTransaction(1, "John Doe", "2023-11", 120.0),
-				new CustomerTransaction(2, "Jane Smith", "2023-12", 50.0));
+		List<CustomerTransactionRQ> transactions = Arrays.asList(new CustomerTransactionRQ(1, "John Doe", "2023-11", 120.0),
+				new CustomerTransactionRQ(2, "Jane Smith", "2023-12", 50.0));
 
 		CustomerRewardsRequest request = new CustomerRewardsRequest();
 		request.setCustomerTransactions(transactions);
 		request.setMonths(2);
 
+		List<CustomerTransactionRS> transactionsRSList = transactions.stream()
+			    .map(transactionsRQ -> new CustomerTransactionRS(
+			        transactionsRQ.getMonth(),
+			        transactionsRQ.getAmount()
+			    ))
+			    .collect(Collectors.toList());
+		
 		List<CustomerRewardsResponse> response = Arrays
-				.asList(new CustomerRewardsResponse(1, transactions, Map.of("2023-11", 90), 90));
+				.asList(new CustomerRewardsResponse(1, transactionsRSList, Map.of("2023-11", 90), 90));
 		
 		/**
 		 * Mock the service call

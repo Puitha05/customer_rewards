@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.assignment.rewards.service.RewardsServiceImpl;
 import com.assignment.rewards.vo.CustomerRewardsRequest;
 import com.assignment.rewards.vo.CustomerRewardsResponse;
-import com.assignment.rewards.vo.CustomerTransaction;
+import com.assignment.rewards.vo.CustomerTransactionRQ;
 
 class RewardsServiceImplTest {
 
@@ -24,10 +24,10 @@ class RewardsServiceImplTest {
 	@Test
 	void testGetRewards() {
 		// Prepare test data
-		List<CustomerTransaction> transactions = Arrays.asList(new CustomerTransaction(1, "John Doe", "2023-11", 120.0),
-				new CustomerTransaction(1, "John Doe", "2023-12", 75.0),
-				new CustomerTransaction(2, "Jane Smith", "2025-01", 150.0),
-				new CustomerTransaction(2, "Jane Smith", "2024-12", 50.0));
+		List<CustomerTransactionRQ> transactions = Arrays.asList(new CustomerTransactionRQ(1, "John Doe", "2023-11", 120.0),
+				new CustomerTransactionRQ(1, "John Doe", "2023-12", 75.0),
+				new CustomerTransactionRQ(2, "Jane Smith", "2025-01", 150.0),
+				new CustomerTransactionRQ(2, "Jane Smith", "2024-12", 50.0));
 
 		CustomerRewardsRequest request = new CustomerRewardsRequest();
 		request.setCustomerTransactions(transactions);
@@ -49,13 +49,13 @@ class RewardsServiceImplTest {
 	@Test
 	void testGetRewards_ReturnMultipleData() {
 		// Prepare test data
-		List<CustomerTransaction> transactions = List.of(new CustomerTransaction(1, "John Doe", "2023-10", 120.0),
-				new CustomerTransaction(2, "Jane Smith", "2023-10", 75.0),
-				new CustomerTransaction(3, "John Doe", "2023-11", 200.0),
-				new CustomerTransaction(4, "Jane Smith", "2023-11", 50.0),
-				new CustomerTransaction(5, "John Doeee", "2025-01", 130.0),
-				new CustomerTransaction(6, "Jane Smith", "2024-12", 90.0),
-				new CustomerTransaction(5, "John Doeee", "2024-12", 140.0));
+		List<CustomerTransactionRQ> transactions = List.of(new CustomerTransactionRQ(1, "John Doe", "2023-10", 120.0),
+				new CustomerTransactionRQ(2, "Jane Smith", "2023-10", 75.0),
+				new CustomerTransactionRQ(3, "John Doe", "2023-11", 200.0),
+				new CustomerTransactionRQ(4, "Jane Smith", "2023-11", 50.0),
+				new CustomerTransactionRQ(5, "John Doeee", "2025-01", 130.0),
+				new CustomerTransactionRQ(6, "Jane Smith", "2024-12", 90.0),
+				new CustomerTransactionRQ(5, "John Doeee", "2024-12", 140.0));
 
 		CustomerRewardsRequest request = new CustomerRewardsRequest();
 		request.setCustomerTransactions(transactions);
@@ -77,13 +77,13 @@ class RewardsServiceImplTest {
 	@Test
 	void testGetRewards_ReturnNoData() {
 		// Prepare test data
-		List<CustomerTransaction> transactions = List.of(new CustomerTransaction(1, "John Doe", "2023-10", 120.0),
-				new CustomerTransaction(2, "Jane Smith", "2023-10", 75.0),
-				new CustomerTransaction(3, "John Doe", "2023-11", 200.0),
-				new CustomerTransaction(4, "Jane Smith", "2023-11", 50.0),
-				new CustomerTransaction(5, "John Doeee", "2024-01", 130.0),
-				new CustomerTransaction(6, "Jane Smith", "2024-12", 90.0),
-				new CustomerTransaction(5, "John Doeee", "2024-12", 140.0));
+		List<CustomerTransactionRQ> transactions = List.of(new CustomerTransactionRQ(1, "John Doe", "2023-10", 120.0),
+				new CustomerTransactionRQ(2, "Jane Smith", "2023-10", 75.0),
+				new CustomerTransactionRQ(3, "John Doe", "2023-11", 200.0),
+				new CustomerTransactionRQ(4, "Jane Smith", "2023-11", 50.0),
+				new CustomerTransactionRQ(5, "John Doeee", "2024-01", 130.0),
+				new CustomerTransactionRQ(6, "Jane Smith", "2024-12", 90.0),
+				new CustomerTransactionRQ(5, "John Doeee", "2024-12", 140.0));
 
 		CustomerRewardsRequest request = new CustomerRewardsRequest();
 		request.setCustomerTransactions(transactions);
@@ -103,7 +103,7 @@ class RewardsServiceImplTest {
 	@Test
 	void testGetRewards_EmptyRequest() {
 		// Prepare test data
-		List<CustomerTransaction> transactions = List.of();
+		List<CustomerTransactionRQ> transactions = List.of();
 
 		CustomerRewardsRequest request = new CustomerRewardsRequest();
 		request.setCustomerTransactions(transactions);
@@ -123,8 +123,8 @@ class RewardsServiceImplTest {
 	@Test
 	void testCalculatePoints() {
 		// Test private method indirectly through exposed methods
-		List<CustomerTransaction> transactions = Arrays
-				.asList(new CustomerTransaction(1, "John Doe", "2023-11", 120.0));
+		List<CustomerTransactionRQ> transactions = Arrays
+				.asList(new CustomerTransactionRQ(1, "John Doe", "2023-11", 120.0));
 
 		CustomerRewardsRequest request = new CustomerRewardsRequest();
 		request.setCustomerTransactions(transactions);

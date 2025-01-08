@@ -17,7 +17,7 @@ public class CustomerRewardsRequest {
     /**
      * List of customer transactions.
      */
-    private List<CustomerTransaction> customerTransactions;
+    private List<CustomerTransactionRQ> customerTransactions;
 
     /**
      * Number of months to consider for rewards calculation.
