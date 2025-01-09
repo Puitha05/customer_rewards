@@ -20,9 +20,9 @@ For example:
 ---
 ## **Screenshot**
 
-![Postman getWebRewardPoints Request Example](screenshots/postman-request.png)
-![Postman getWebRewardPoints Response Example](screenshots/postman-request.png)
-![Postman getCustomerInfoAndRewards Response Example](screenshots/postman-getCustomerTransactionsAndRewards-RS.png)
+![Postman getWebRewardPoints Request Example](screenshots/postman-getWebRewardPoints-request.png)
+![Postman getWebRewardPoints Response Example](screenshots/postman-getWebRewardPoints-response.png)
+![Postman getCustomerTransactionsAndRewards Response Example](screenshots/postman-getCustomerTransactionsAndRewards-RS.png)
 
 ## Sample Input for getWebRewardPoints
 ```json
