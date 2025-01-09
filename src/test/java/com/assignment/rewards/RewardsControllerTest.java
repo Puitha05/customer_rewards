@@ -70,7 +70,7 @@ class RewardsControllerTest {
 			    .collect(Collectors.toList());
 		
 		List<CustomerRewardsResponse> response = Arrays
-				.asList(new CustomerRewardsResponse(1, transactionsRSList, Map.of("2023-11", 90), 90));
+				.asList(new CustomerRewardsResponse(1, "John Doe",transactionsRSList, Map.of("2023-11", 90), 90));
 		
 		/**
 		 * Mock the service call

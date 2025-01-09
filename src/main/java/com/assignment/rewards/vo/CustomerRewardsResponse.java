@@ -20,6 +20,10 @@ public class CustomerRewardsResponse {
 	 * Unique customer ID.
 	 */
 	private Integer customerId;
+	/**
+     * Customer name.
+     */
+    private String customerName;
 
 	/**
 	 * List of customer transactions.
@@ -29,10 +33,10 @@ public class CustomerRewardsResponse {
 	/**
 	 * Mapping of month to reward points.
 	 */
-	private Map<String, Integer> monthlyPoints;
+	private Map<String, Integer> monthlyRewardPoints;
 
 	/**
 	 * Total reward points accumulated by the customer.
 	 */
-	private int totalPoints;
+	private int totalRewardPoints;
 }

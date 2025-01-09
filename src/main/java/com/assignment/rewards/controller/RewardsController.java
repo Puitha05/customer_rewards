@@ -1,22 +1,23 @@
 package com.assignment.rewards.controller;
 
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.rewards.service.RewardsService;
 import com.assignment.rewards.vo.CustomerInfoAndRewardsRS;
 import com.assignment.rewards.vo.CustomerRewardsRequest;
 import com.assignment.rewards.vo.CustomerRewardsResponse;
-import com.assignment.rewards.vo.MonthlyTransactionRS;
 
 /**
  * REST controller for handling reward points calculations. Exposes endpoints
@@ -51,44 +52,40 @@ public class RewardsController {
 	}
 
 	/**
-	 * Handles HTTP GET requests to fetch reward points for a specific customer.
-	 * 
-	 * @param customerId The ID of the customer whose rewards data is being
-	 *                   requested.
-	 * @return ResponseEntity containing the reward points or an error message in
-	 *         case of failure.
+	 * Handles HTTP GET requests to fetch transactions and rewards for a specific
+	 * customer within a given month-year range.
+	 *
+	 * @param customerId The ID of the customer whose data is being requested.
+	 * @param startDate  The start date of the range in "MM-yyyy" format.
+	 * @param endDate    The end date of the range in "MM-yyyy" format.
+	 * @return ResponseEntity containing the combined data of customer and rewards
+	 *         earned by customer or an error message in case of failure.
 	 */
-	@GetMapping("/getCustomerInfoAndRewards/{customerId}")
-	public ResponseEntity<?> getCustomerRewards(@PathVariable Long customerId) {
+	@GetMapping("/getCustomerTransactionsAndRewards")
+	public ResponseEntity<?> getCustomerTransactionsAndRewards(@RequestParam Long customerId,
+			@RequestParam String startDate, @RequestParam String endDate) {
 		try {
-			CustomerInfoAndRewardsRS response = rewardsService.getCustomerInfoAndRewards(customerId);
-			if (response != null) {
-				return ResponseEntity.ok(response);
+			// Parse the startDate and endDate in "MM-yyyy" format
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
+			YearMonth start = YearMonth.parse(startDate, formatter);
+			YearMonth end = YearMonth.parse(endDate, formatter);
+
+			/**
+			 * Fetch customer transactions and rewards
+			 */
+			CustomerInfoAndRewardsRS customerInfoAndRewards = rewardsService
+					.getCustomerTransactionsAndRewards(customerId, start, end);
+
+			if (customerInfoAndRewards != null) {
+				return ResponseEntity.ok(customerInfoAndRewards);
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found.");
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("An error occurred while fetching rewards: " + e.getMessage());
+					.body("An error occurred while fetching transactions and rewards: " + e.getMessage());
 		}
-	}
 
-	/**
-	 * Endpoint to fetch customer transaction data for a specific months period.
-	 * 
-	 * @param monthId - 1 for current month, 2 for previous and current month
-	 * @return List of customer transaction data for the given month(s)
-	 */
-	@GetMapping("/getTransactionsByMonth/{monthId}")
-	public ResponseEntity<?> getTransactionsByMonth(@PathVariable int monthId) {
-		try {
-			// Get the rewards based on the monthId
-			List<MonthlyTransactionRS> res = rewardsService.getTransactionsByMonth(monthId);
-			return ResponseEntity.ok(res);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("An error occurred while fetching customer data for the month: " + e.getMessage());
-		}
 	}
 
 }

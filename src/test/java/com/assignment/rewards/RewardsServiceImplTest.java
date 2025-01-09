@@ -38,7 +38,7 @@ class RewardsServiceImplTest {
 
 		// Validate results
 		assertEquals(1, rewardsResponses.size());
-		assertEquals(150, rewardsResponses.get(0).getTotalPoints());
+		assertEquals(150, rewardsResponses.get(0).getTotalRewardPoints());
 	}
 
 	/**
@@ -66,8 +66,8 @@ class RewardsServiceImplTest {
 
 		// Validate results
 		assertEquals(2, rewardsResponses.size());
-		assertEquals(240, rewardsResponses.get(0).getTotalPoints());
-		assertEquals(40, rewardsResponses.get(1).getTotalPoints());
+		assertEquals(240, rewardsResponses.get(0).getTotalRewardPoints());
+		assertEquals(40, rewardsResponses.get(1).getTotalRewardPoints());
 	}
 
 	/**

@@ -23,8 +23,6 @@ public interface CustomerRewardsRepository extends JpaRepository<CustomerInfoAnd
 	 * @param toDate the to date
 	 * @return the list
 	 */
-//	CustomerInfoAndRewardsEntity findByCustomerId(LocalDate fromDate, LocalDate toDate);
-//	CustomerInfoAndRewardsEntity findByCustomerId(Long customerId);
 	 @Query("SELECT c FROM CustomerTransactionsEntity c WHERE c.month IN :months")
 	    List<CustomerTransactionsEntity> findByMonths(@Param("months") List<String> months);
 	

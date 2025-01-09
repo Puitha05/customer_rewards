@@ -1,6 +1,7 @@
 package com.assignment.rewards.vo;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,10 @@ public class CustomerInfoAndRewardsRS {
      * List of customer transactions.
      */
     private List<CustomerTransactionRS> customerTransactions;
+    /**
+	 * Mapping of month to reward points.
+	 */
+	private Map<String, Integer> monthlyRewardPoints;
     /**
      * Total reward points accumulated by the customer.
      */
