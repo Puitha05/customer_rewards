@@ -10,23 +10,19 @@ For example:
 
 2. Create GET endpoint for fetching customer information along with rewards.
 
-3. Create an endpoint passing month information as path variable and fetching respective month wise data
 ---
 
 ## API Endpoint
 1. **getWebRewardPoints**: Returns ResponseEntity containing the calculated rewards or an error message in case of failure.  
 **URL**: `/api/rewards/getWebRewardPoints`
-2. **getCustomerInfoAndRewards**: Returns ResponseEntity containing the calculated rewards, customer data for the specific customer ID.  
-**URL**: `/api/rewards/getCustomerInfoAndRewards/{customerId}`
-3. **getTransactionsByMonth**: Returns ResponseEntity containing the customer transaction data for a specific months period. 
-**URL**: `/api/rewards/getRewardsByMonth/{monthId}`
+2. **getCustomerTransactionsAndRewards**: Returns ResponseEntity containing the calculated rewards, customer data for the specific customer ID.  
+**URL**: `/api/rewards/getCustomerTransactionsAndRewards?customerId=1&startDate=09-2023&endDate=01-2025`
 ---
 ## **Screenshot**
 
 ![Postman getWebRewardPoints Request Example](screenshots/postman-request.png)
 ![Postman getWebRewardPoints Response Example](screenshots/postman-request.png)
-![Postman getCustomerInfoAndRewards Response Example](screenshots/postman-getCustomerInfoAndRewards-RS.png)
-![Postman getWebRewardPoints Response Example](screenshots/postman-getTransactionsByMonth-RS.png)
+![Postman getCustomerInfoAndRewards Response Example](screenshots/postman-getCustomerTransactionsAndRewards-RS.png)
 
 ## Sample Input for getWebRewardPoints
 ```json
