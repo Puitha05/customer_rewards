@@ -1,11 +1,14 @@
 package com.assignment.rewards.repository;
 
-import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.assignment.rewards.entity.CustomerInfoAndRewardsEntity;
+import com.assignment.rewards.entity.CustomerTransactionsEntity;
 
 /**
  * The Interface CustomerRewardsRepository.
@@ -21,7 +24,9 @@ public interface CustomerRewardsRepository extends JpaRepository<CustomerInfoAnd
 	 * @return the list
 	 */
 //	CustomerInfoAndRewardsEntity findByCustomerId(LocalDate fromDate, LocalDate toDate);
-	CustomerInfoAndRewardsEntity findByCustomerId(Long customerId);
+//	CustomerInfoAndRewardsEntity findByCustomerId(Long customerId);
+	 @Query("SELECT c FROM CustomerTransactionsEntity c WHERE c.month IN :months")
+	    List<CustomerTransactionsEntity> findByMonths(@Param("months") List<String> months);
 	
 
 }

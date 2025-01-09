@@ -2,6 +2,7 @@ package com.assignment.rewards.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -148,8 +149,8 @@ public class RewardsServiceImpl implements RewardsService {
 	 * @param monthId - indicates how many months data needs to be fetched.
 	 * @return
 	 */
-	@Override
-	public List<MonthlyTransactionRS> getTransactionsByMonth(int monthId) {
+//	@Override
+	public List<MonthlyTransactionRS> getTransactionsByMonthTest(int monthId) {
 		LocalDate currentDate = LocalDate.now();
 		LocalDate startDate;
 
@@ -188,5 +189,38 @@ public class RewardsServiceImpl implements RewardsService {
 			return new MonthlyTransactionRS(customer.getCustomerId().intValue(), transactionRSList);
 		}).collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<MonthlyTransactionRS> getTransactionsByMonth(int monthId) {
+	    LocalDate currentDate = LocalDate.now();
+
+	    // Determine the months to filter
+	    List<String> months = new ArrayList<>();
+	    months.add(currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM")));
+	    if (monthId == 2) {
+	        months.add(currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM")));
+	    } else if (monthId != 1) {
+	        throw new IllegalArgumentException("Invalid month identifier.");
+	    }
+
+	    // Fetch filtered transactions
+	    List<CustomerTransactionsEntity> transactions = customerRewardsRepository.findByMonths(months);
+
+	    // Group by customerId and map to MonthlyTransactionRS
+	    Map<Long, List<CustomerTransactionRS>> groupedTransactions = transactions.stream()
+		        .collect(Collectors.groupingBy(
+		            transaction -> transaction.getCustomerInfo().getCustomerId(),
+		            Collectors.mapping(
+		                transaction -> new CustomerTransactionRS(transaction.getMonth(), transaction.getAmount()),
+		                Collectors.toList()
+		            )
+		        ));
+
+	    // Map to MonthlyTransactionRS list
+	    return groupedTransactions.entrySet().stream()
+	        .map(entry -> new MonthlyTransactionRS(entry.getKey().intValue(), entry.getValue()))
+	        .collect(Collectors.toList());
+	}
+
 
 }
